@@ -1,0 +1,5 @@
+#class
+#__init__ method
+
+#object
+#delete object
