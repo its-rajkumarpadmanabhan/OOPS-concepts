@@ -1,4 +1,3 @@
-
 #Create a class called Person
 #Add an __init__ method that takes name and age as parameters
 #Add a method called greet that prints "Hello, my name is " followed by the name

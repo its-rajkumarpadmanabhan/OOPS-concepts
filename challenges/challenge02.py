@@ -1,3 +1,4 @@
+
 #Create a class called Dog
 #Add an __init__ method with parameters name and age, and store them as properties using self
 #Add a method called bark that prints the dog's name followed by " says Woof!"
