@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Its OOPs Concept</title>
+    <style>
+        :root {
+            --bg-main: #f4f6fa;
+            --bg-sidebar: #ffffff;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
+            --primary: #4f46e5;
+            --folder-blue: #e0f2fe;
+            --folder-red: #fee2e2;
+            --folder-yellow: #fef9c3;
+            --card-yellow: #fef08a;
+            --card-red: #fca5a5;
+            --card-blue: #7dd3fc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Styling */
+        aside {
+            width: 260px;
+            background: var(--bg-sidebar);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links {
+            list-style: none;
+            flex-grow: 1;
+        }
+
+        .nav-links li {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-links li.active, .nav-links li:hover {
+            background: #f1f5f9;
+            color: var(--text-dark);
+        }
+
+        /* Widget / Progress Area */
+        .progress-box {
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            padding: 1.25rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .progress-box h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-dark);
+        }
+
+        .progress-container {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0%;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        /* Main Content Styling */
+        main {
+            flex-grow: 1;
+            padding: 2rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        /* Header Layout */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            background: #cbd5e1;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #fff;
+            background-color: var(--primary);
+        }
+
+        /* Section Headings */
+        .section-title {
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Concept Folders (Grid Layout) */
+        .grid-folders {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .folder {
+            padding: 1.5rem;
+            border-radius: 16px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .folder:hover {
+            transform: translateY(-2px);
+        }
+
+        .folder-blue { background-color: var(--folder-blue); }
+        .folder-red { background-color: var(--folder-red); }
+        .folder-yellow { background-color: var(--folder-yellow); }
+
+        .folder h3 {
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            font-weight: 700;
+        }
+
+        .folder p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Code Study Cards */
+        .grid-notes {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .note-card {
+            padding: 1.5rem;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .card-yellow { background-color: var(--card-yellow); }
+        .card-red { background-color: var(--card-red); }
+        .card-blue { background-color: var(--card-blue); }
+
+        .note-card h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .note-card pre {
+            background: rgba(255, 255, 255, 0.6);
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+
+        .note-card p {
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        /* Tasks / Questions UI Section */
+        .tasks-section {
+            background: #ffffff;
+            padding: 2rem;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .task-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            padding: 0.5rem 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -0.6rem;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 3px;
+        }
+
+        .task-list {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .task-list.active {
+            display: flex;
+        }
+
+        .task-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+            transition: all 0.2s;
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+            background: #f1f5f9;
+        }
+
+        .task-text {
+            flex-grow: 1;
+        }
+
+        .task-text p strong {
+            display: block;
+            margin-bottom: 0.25rem;
+            color: var(--text-dark);
+        }
+
+        .task-text p span {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .task-item.completed .task-text p strong,
+        .task-item.completed .task-text p span {
+            text-decoration: line-through;
+        }
+
+        .action-btn {
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .strike-btn {
+            background: #e2e8f0;
+            color: var(--text-dark);
+        }
+
+        .strike-btn:hover { background: #cbd5e1; }
+
+        .unstrike-btn {
+            background: #fee2e2;
+            color: #ef4444;
+            display: none;
+        }
+
+        .unstrike-btn:hover { background: #fca5a5; }
+
+        .task-item.completed .strike-btn { display: none; }
+        .task-item.completed .unstrike-btn { display: inline-block; }
+
+    </style>
+</head>
+<body>
+
+    <aside>
+        <div>
+            <div class="logo">● MINO</div>
+            <ul class="nav-links">
+                <li class="active">Dashboard</li>
+                <li>Core Concepts</li>
+                <li>Code Sandbox</li>
+                <li>Assessment</li>
+            </ul>
+        </div>
+
+        <div class="progress-box">
+            <h4>Total Progress</h4>
+            <div class="progress-container">
+                <div class="progress-bar" id="overall-progress"></div>
+            </div>
+            <p id="progress-text" style="font-size: 0.85rem; color: var(--text-muted);">0/40 Solved</p>
+        </div>
+    </aside>
+
+    <main>
+        <header>
+            <h1>its OOPs concept</h1>
+            <div class="user-profile">
+                <span>R Rajkumar Padmanabhan</span>
+                <div class="avatar">R</div>
+            </div>
+        </header>
+
+        <section>
+            <h2 class="section-title">Step-by-Step Learning Map</h2>
+            <div class="grid-folders">
+                <div class="folder folder-blue">
+                    <span>📁 Step 1</span>
+                    <h3>Class & Object</h3>
+                    <p>The blueprints and building blocks.</p>
+                </div>
+                <div class="folder folder-red">
+                    <span>📁 Step 2</span>
+                    <h3>Inheritance</h3>
+                    <p>Reusing code via structural hierarchies.</p>
+                </div>
+                <div class="folder folder-yellow">
+                    <span>📁 Step 3</span>
+                    <h3>Polymorphism</h3>
+                    <p>Executing distinct actions via uniform APIs.</p>
+                </div>
+                <div class="folder folder-blue">
+                    <span>📁 Step 4</span>
+                    <h3>Encapsulation</h3>
+                    <p>Restricting read/write access to internal data.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="section-title">Core Implementation Notebooks</h2>
+            <div class="grid-notes">
+                <div class="note-card card-yellow">
+                    <h3>1. Class & Object</h3>
+                    <pre>class Smartphone:
+    def __init__(self, brand):
+        self.brand = brand
+
+    def start(self):
+        return f"{self.brand} loaded!"
+
+phone = Smartphone("Apple")
+print(phone.start())</pre>
+                    <p><strong>Explanation:</strong> <code>Smartphone</code> behaves as the abstract layout setup. `self` serves as a proxy marker for whichever explicit variant object (like <code>phone</code>) gets run inside runtime environments.</p>
+                </div>
+
+                <div class="note-card card-red">
+                    <h3>2. Inheritance</h3>
+                    <pre>class Device:
+    def power_on(self):
+        return "System Online"
+
+class Laptop(Device):
+    pass
+
+mac = Laptop()
+print(mac.power_on())</pre>
+                    <p><strong>Explanation:</strong> <code>Laptop</code> inherits from <code>Device</code>. Consequently, any instance generated via <code>Laptop</code> directly accesses methods established upstream inside the base class parent configuration layout automatically.</p>
+                </div>
+
+                <div class="note-card card-blue">
+                    <h3>3. Polymorphism</h3>
+                    <pre>class Cat:
+    def speak(self): return "Meow"
+
+class Dog:
+    def speak(self): return "Woof"
+
+for animal in [Cat(), Dog()]:
+    print(animal.speak())</pre>
+                    <p><strong>Explanation:</strong> Both classes share an identical method named <code>speak()</code>. The interface loops through instances executing specific variant behaviors dynamically without needing custom type-checking logic blocks.</p>
+                </div>
+
+                <div class="note-card card-yellow">
+                    <h3>4. Encapsulation</h3>
+                    <pre>class Vault:
+    def __init__(self):
+        self.__secret = "Gold"
+
+    def get_secret(self):
+        return self.__secret
+
+v = Vault()
+print(v.get_secret())</pre>
+                    <p><strong>Explanation:</strong> Prefixing properties with double underscores (<code>__secret</code>) invokes name mangling in Python. This hides variables from direct outside modifications, protecting data integrity.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="tasks-section">
+            <h2 class="section-title">Concept Verification Tasks</h2>
+            
+            <div class="task-tabs">
+                <button class="tab-btn active" onclick="switchTab('class-obj')">Class & Object</button>
+                <button class="tab-btn" onclick="switchTab('inheritance')">Inheritance</button>
+                <button class="tab-btn" onclick="switchTab('polymorphism')">Polymorphism</button>
+                <button class="tab-btn" onclick="switchTab('encapsulation')">Encapsulation</button>
+            </div>
+
+            <div id="class-obj" class="task-list active"></div>
+
+            <div id="inheritance" class="task-list"></div>
+
+            <div id="polymorphism" class="task-list"></div>
+
+            <div id="encapsulation" class="task-list"></div>
+        </section>
+    </main>
+
+    <script>
+        // Data Store representing exactly 10 questions for each of the 4 concepts
+        const dataset = {
+            "class-obj": [
+                { q: "What is a class in Python?", a: "A blueprint or template used to generate unique concrete object structures." },
+                { q: "What defines an instance?", a: "An individual object initialized dynamically from a class blueprint." },
+                { q: "What is the specific role of the '__init__' method?", a: "It acts as the constructor method initializer to set starting attributes." },
+                { q: "What does the 'self' keyword point to?", a: "It references the specific object instance currently executing the code block." },
+                { q: "How are instance attributes distinct from class attributes?", a: "Instance attributes are unique to each object; class attributes are shared globally across all instances." },
+                { q: "Can you change class attributes through an instance context directly?", a: "No, modifying via an instance typically creates a local instance attribute override instead." },
+                { q: "What function verifies if an object belongs to a class?", a: "The built-in 'isinstance()' method evaluates this relationship." },
+                { q: "What does the '__str__' magic method do?", a: "It dictates the readable, user-friendly string format when printing an object." },
+                { q: "What does the '__repr__' method output?", a: "An unambiguous string format targeted toward developer debugging pipelines." },
+                { q: "Is it possible to instantiate a class without parameters if '__init__' isn't configured?", a: "Yes, Python automatically applies an implicit default constructor." }
+            ],
+            "inheritance": [
+                { q: "What is base syntax for subclassing?", a: "Passing the parent class name inside parentheses during child class definition: class Child(Parent)." },
+                { q: "What capability does the 'super()' function unlock?", a: "It access and calls methods directly from the parent class." },
+                { q: "What is Multiple Inheritance?", a: "A setup where a single child class inherits characteristics from more than one parent class." },
+                { q: "Explain Method Resolution Order (MRO).", a: "The deterministic path Python uses to look up methods across complex inheritance structures." },
+                { q: "How can you view the MRO map of a class?", a: "By accessing the '__mro__' attribute or calling the '.mro()' method on the target class." },
+                { q: "What is Multilevel Inheritance?", a: "A structural chain where a subclass acts as the parent foundation for another subclass down the line." },
+                { q: "What happens during Method Overriding?", a: "A child class provides a specialized implementation of a method that is already defined in its parent class." },
+                { q: "Does Python support a common global object baseline?", a: "Yes, implicitly all user-defined classes inherit from the built-in 'object' base class." },
+                { q: "What function checks if a class is a subclass of another?", a: "The built-in 'issubclass()' function validates this class hierarchy." },
+                { q: "What are mixins in inheritance strategies?", a: "Small, specialized classes designed to inject modular features into other classes without forcing deep hierarchies." }
+            ],
+            "polymorphism": [
+                { q: "What does polymorphism mean literally?", a: "The property of taking multiple distinct forms across common execution interfaces." },
+                { q: "How is duck typing related to polymorphism?", a: "It focuses on what methods an object supports rather than its explicit class type." },
+                { q: "Does Python natively support traditional strict method overloading by default?", a: "No, subsequent method declarations with identical names simply overwrite earlier definitions." },
+                { q: "How can method overloading behaviors be simulated?", a: "By evaluating optional keyword arguments or parameter default configurations inside a single method wrapper." },
+                { q: "What is operator overloading?", a: "Redefining the behavior of built-in operators (like +, -, *) using magic methods (like __add__, __sub__)." },
+                { q: "Which magic method controls the addition (+) operator mapping?", a: "The '__add__' method handles this customization." },
+                { q: "Can built-in functions exhibit polymorphic qualities?", a: "Yes, for example, 'len()' processes strings, lists, and dicts seamlessly using their internal hooks." },
+                { q: "What role do Abstract Base Classes (ABCs) play in polymorphism?", a: "They define uniform interface patterns that subclasses must implement." },
+                { q: "Which module implements abstract architectures?", a: "The built-in 'abc' module delivers Abstract Base Class utilities." },
+                { q: "How do you mark a method as abstract?", a: "By applying the '@abstractmethod' decorator above the target method definition." }
+            ],
